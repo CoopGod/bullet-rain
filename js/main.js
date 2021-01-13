@@ -37,12 +37,12 @@ let level = 1;
 requestAnimationFrame(draw);
 
 function draw() {
-  // LEVEL SELECTOR
+  // LEVEL SELECTOR BROKEN CANNOT SWITCH LEVELS
   if (level == 1) {
     level1();
   }
   if (level == 2) {
-    level2();
+    level2(); 
   }
   if (level == 3) {
     level3();

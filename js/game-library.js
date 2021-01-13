@@ -63,20 +63,19 @@ function playerMovement() {
 // Check if player hit by object
 function playerHitCheck(player, objects) {
   for (let i = 0; i < objects.length; i++) { 
-    if (squareCollide(player, objects[i], PLAYER_SIZE, objects.size)) {
-      console.log("HIT!")
-      //player.x = -100;
-      //player.y = -100;
+    if (squareCollide(player, objects[i], PLAYER_SIZE, objects[i].size)) {
+      player.x = -100;
+      player.y = -100;
       gameover = true;
     }
   }
 }
 
-// Update message on HTML and increase difficulty
+// LEVEL INCREASE
 let output = document.getElementById('output'); // HTML El to update level
 let bulletsDodgedOutput = document.getElementById('bulletsDodgedOutput'); // HTML El to update dodged
 function outputMessageHandler(bulletsDodged) {
-  if (bulletsDodged == 199) {
+  if (bulletsDodged == 29) {
     output.innerHTML = "It's raining, It's pouring";
     levelup(23);
   }
@@ -103,11 +102,15 @@ function outputMessageHandler(bulletsDodged) {
 // Display screen for leveling up
 async function levelup(restockAmmout) {
   clearArray = [];
+  if (level == 1) {
+    tumbleweeds = clearArray;
+  }
   bullets = clearArray; // Clear all bullets
   levelChange = true; // Update to draw front page
   await sleep(5000); // Leave time for break
   tempArray = populateBullets(restockAmmout);
   bullets = tempArray; // Restock bullets
+  level++
   levelChange = false;
 }
 
@@ -194,13 +197,23 @@ function tumbleweedDraw(tumbleweeds) {
 
 function tumbleweedMove(tumbleweeds) {
   for (let n = 0; n < tumbleweeds.length; n++) {
-    if (tumbleweeds[n].x > 800 + TUMBLEWEED_SIZE || tumbleweeds[n].x < 0 - TUMBLEWEED_SIZE) {
-      tumbleweeds.splice(n, 1)
-      n--
-    }
-    else {
       tumbleweeds[n].x += tumbleweeds[n].speed;
     }
 
+}
+
+function populateTumbleweed(tumbleweedCount) {
+  let tempArray = []
+  for (let i = 1; i < tumbleweedCount; i++) {
+    // if i  is odd
+    if (i % 2 == 1) {
+      tempArray.push({ x: randomInt(-8000, -200), y: randomInt(100, 501), speed: randomInt(4, 7), size: TUMBLEWEED_SIZE})
+    }
+    // if i  is even
+    if (i % 2 == 0) {
+      tempArray.push({ x: randomInt(650, 8000), y: randomInt(100, 501), speed: randomInt(-6, -3), size: TUMBLEWEED_SIZE})
+    }
+    
   }
+  return tempArray;
 }
