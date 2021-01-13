@@ -31,41 +31,31 @@ let gameover = false;
 let levelChange = false;
 let gameBeaten = false;
 let bulletsDodged = 0;
+let level = 1;
 
 // Main Draw Loop
 requestAnimationFrame(draw);
 
 function draw() {
-  level1();
-  // Check if level changing
-  if (levelChange) {
-    player.x = 400 - PLAYER_SIZE;
-    player.y = 300 - PLAYER_SIZE;
-    fill("blue");
-    font("100px Franklin Gothic Medium");
-    text("LEVEL UP", 180, 100, 'fill');
-    font("40px Franklin Gothic Medium");
-    text("enjoy your 5 second break", 160, 150, 'fill');
+  // LEVEL SELECTOR
+  if (level == 1) {
+    level1();
+  }
+  if (level == 2) {
+    level2();
+  }
+  if (level == 3) {
+    level3();
+  }
+  if (level == 4) {
+    level4();
+  }
+  if (level == 5) {
+    level5();
   }
 
-  // Check if player hit
-  playerHitCheck(player, bullets);
-  if (gameover) {
-    fill("red");
-    font("100px Franklin Gothic Medium");
-    text("GAME OVER", 120, 100, 'fill');
-    font("40px Franklin Gothic Medium");
-    text("press space to replay", 200, 150, 'fill');
-  }
-
-  // Check if game Beaten
-  if (gameBeaten) {
-    fill("green");
-    font("100px Franklin Gothic Medium");
-    text("You Survived", 120, 100, 'fill');
-    font("40px Franklin Gothic Mediumorgia");
-    text("press space to replay", 230, 150, 'fill');
-  }
+  // CHECK TO DISPLAY MESSAGES
+ displayMessages();
 
   requestAnimationFrame(draw);
 }
