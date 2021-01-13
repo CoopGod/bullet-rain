@@ -23,9 +23,6 @@
 let cnv = document.getElementById("my-canvas");
 let ctx = cnv.getContext("2d");
 
-let mouseX;
-let mouseY;
-let mouseIsPressed = false;
 let keyIsDown = {};
 
 // Canvas Default Size
@@ -164,18 +161,6 @@ function dist(x1, y1, x2, y2) {
   let hypoCalc = (xDistance * xDistance) + (yDistance * yDistance);
   let distance = Math.sqrt(hypoCalc);
   return distance;
-}
-
-// Test if two rectangle objects intersect
-function squareCollide(rect1, rect2, rect1Size, rect2Size) {
-  if (rect1.x >= rect2.x + rect2Size || rect2.x >= rect1.x + rect1Size) {
-    return false;
-  }
-  if (rect1.y >= rect2.y + rect2Size || rect2.y >= rect1.y + rect1Size) {
-    return false;
-  }
-
-  return true;
 }
 
 // EVENT LISTENERS & HANDLERS

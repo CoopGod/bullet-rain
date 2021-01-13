@@ -2,7 +2,9 @@
 
 //TODO
 // ADD -> bullets range in colors on gray scale
-// ADD -> Level display in top corner
+// ADD -> Level display in top corner and change backgrounds and players per level increase
+// make new file called levels.js and have different draw functions (insides). These can be
+// called instead of the regular draw function
 // ADD -> Final level bullets go rainbow and background goes black
 
 // Set Canvas Size
@@ -34,24 +36,7 @@ let bulletsDodged = 0;
 requestAnimationFrame(draw);
 
 function draw() {
-  background("beige");
-
-
-  // Move player
-  playerMovement();
-  // Draw Player
-  if (!gameover && !gameBeaten) {
-    fill('red');
-    rect(player.x, player.y, PLAYER_SIZE, PLAYER_SIZE, 'fill');
-  }
-
-  // Draw Bullets
-  fill('black')
-  bulletDraw(bullets);
-
-  // Move Bullets
-  bulletMove(bullets);
-
+  level1();
   // Check if level changing
   if (levelChange) {
     player.x = 400 - PLAYER_SIZE;

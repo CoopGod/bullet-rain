@@ -120,3 +120,15 @@ async function levelup(restockAmmout) {
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+// Test if two square objects intersect
+function squareCollide(rect1, rect2, rect1Size, rect2Size) {
+  if (rect1.x >= rect2.x + rect2Size || rect2.x >= rect1.x + rect1Size) {
+    return false;
+  }
+  if (rect1.y >= rect2.y + rect2Size || rect2.y >= rect1.y + rect1Size) {
+    return false;
+  }
+
+  return true;
+}
