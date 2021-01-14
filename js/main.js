@@ -1,10 +1,6 @@
 // BULLET RAIN
 
 //TODO
-// ADD -> bullets range in colors on gray scale
-// ADD -> Level display in top corner and change backgrounds and players per level increase
-// make new file called levels.js and have different draw functions (insides). These can be
-// called instead of the regular draw function
 // ADD -> Final level bullets go rainbow and background goes black
 
 // Set Canvas Size
@@ -16,6 +12,16 @@ let PLAYER_SPEED = 3;
 let BULLETS_SIZE = 10;
 let BULLETS_SPEED_MIN = 2;
 let BULLETS_SPEED_MAX = 6;
+
+// GLOBAL LEVEL VARIABLES
+let level1ScoreToBeat = 10; // more than on old west
+let level2ScoreToBeat = 20; // more than on ocean
+let level3ScoreToBeat = 30; // more than in russia
+
+let level2Setup = false;
+let level3Setup = false;
+let level4Setup = false;
+
 
 // Set and Hold player position
 let player = {
@@ -38,20 +44,17 @@ requestAnimationFrame(draw);
 
 function draw() {
   // LEVEL SELECTOR BROKEN CANNOT SWITCH LEVELS
-  if (level == 1) {
+  if (level == 1) { // old west
     level1();
   }
-  if (level == 2) {
+  if (level == 2) { // beach
     level2(); 
   }
   if (level == 3) {
     level3();
   }
-  if (level == 4) {
+  if (level == 4) { // space
     level4();
-  }
-  if (level == 5) {
-    level5();
   }
 
   // CHECK TO DISPLAY MESSAGES

@@ -7,14 +7,19 @@ function bulletDraw(bullets) {
     if (bullets[i].y >= 600) {
       bullets.splice(i, 1);
       i--;
-      bullets.push({ x: randomInt(0, 801), y: -10, speed: randomInt(BULLETS_SPEED_MIN, BULLETS_SPEED_MAX), size: BULLETS_SIZE});
-      bulletsDodged++;
+      bullets.push({
+        x: randomInt(0, 801),
+        y: -10,
+        speed: randomInt(BULLETS_SPEED_MIN, BULLETS_SPEED_MAX),
+        size: BULLETS_SIZE
+      });
       // If game isn't over increase level
       if (!gameover) {
-        outputMessageHandler(bulletsDodged);
+        bulletsDodged++;
+        outputMessageHandler();
+        updateLevels();
       }
-    }
-    else {
+    } else {
       rect(bullets[i].x, bullets[i].y, bullets[i].size, bullets[i].size, 'fill');
     }
   }
@@ -31,7 +36,12 @@ function bulletMove(bullets) {
 function populateBullets(bulletCount) {
   let tempArray = []
   for (let i = 0; i < bulletCount; i++) {
-    tempArray.push({ x: randomInt(0, 801), y: -10, speed: randomInt(BULLETS_SPEED_MIN, BULLETS_SPEED_MAX), size: BULLETS_SIZE});
+    tempArray.push({
+      x: randomInt(0, 801),
+      y: -10,
+      speed: randomInt(BULLETS_SPEED_MIN, BULLETS_SPEED_MAX),
+      size: BULLETS_SIZE
+    });
   }
   return tempArray;
 }
@@ -62,7 +72,7 @@ function playerMovement() {
 // GAME LOGIC FUNCTIONS ---------------------------------------------------------
 // Check if player hit by object
 function playerHitCheck(player, objects) {
-  for (let i = 0; i < objects.length; i++) { 
+  for (let i = 0; i < objects.length; i++) {
     if (squareCollide(player, objects[i], PLAYER_SIZE, objects[i].size)) {
       player.x = -100;
       player.y = -100;
@@ -71,46 +81,66 @@ function playerHitCheck(player, objects) {
   }
 }
 
-// LEVEL INCREASE
-let output = document.getElementById('output'); // HTML El to update level
+// bullet count updates
 let bulletsDodgedOutput = document.getElementById('bulletsDodgedOutput'); // HTML El to update dodged
-function outputMessageHandler(bulletsDodged) {
-  if (bulletsDodged == 29) {
-    output.innerHTML = "It's raining, It's pouring";
-    levelup(23);
-  }
-  if (bulletsDodged == 599) {
-    output.innerHTML = "You should fear death";
-    levelup(32);
-  }
-  if (bulletsDodged == 1599) {
-    output.innerHTML = "AHHHHHHHH";
-    levelup(40);
-  }
-  if (bulletsDodged == 2499) {
-    output.innerHTML = "You're unkillable";
-    gameBeaten = true;
-    clearArray = [];
-    bullets = clearArray; // Clear all bullets
-  }
-
-  // Update bullets dodged
+function outputMessageHandler() {
   bulletsDodgedOutput.innerHTML = bulletsDodged;
+}
 
+// LEVEL SETUP -----------------------------------------------------------------
+// Check to see if level needs to be updated
+function updateLevels() {
+  if (bulletsDodged >= level1ScoreToBeat) {
+    level = 2;
+    levelSetup();
+  }
+  if (bulletsDodged >= level2ScoreToBeat && bulletsDodged <= level3ScoreToBeat) {
+    level = 3;
+    levelSetup();
+  }
+  if (bulletsDodged >= level3ScoreToBeat) {
+    level = 4;
+    levelSetup();
+  }
+}
+
+function levelSetup() { // LEVELING FROM RUSSIA TO SPACE IS BROKEN (calls if level == 3 more than it should)
+  if (level == 2 && level2Setup == false) {
+    console.log('check') // Beach
+    levelup(25)
+    level2Setup = true;
+  }
+  if (level == 3 && level3Setup == false) {
+    console.log('check') // Russia
+    level3Setup == true;
+    levelup(35)
+    
+  }
+  if (level == 4 && level4Setup == false) { // Space
+    console.log('check')
+     levelup(45);
+     level4Setup == true;
+  }
 }
 
 // Display screen for leveling up
 async function levelup(restockAmmout) {
   clearArray = [];
-  if (level == 1) {
+  // Level specifics (subtract one for actual level)
+  if (level == 2) {
     tumbleweeds = clearArray;
+  }
+  if (level == 3) {
+    beachballs = clearArray;
+  }
+  if (level == 4) {
+    vodkas = clearArray;
   }
   bullets = clearArray; // Clear all bullets
   levelChange = true; // Update to draw front page
   await sleep(5000); // Leave time for break
   tempArray = populateBullets(restockAmmout);
   bullets = tempArray; // Restock bullets
-  level++
   levelChange = false;
 }
 
@@ -152,9 +182,8 @@ function squareCollide(rect1, rect2, rect1Size, rect2Size) {
 
 // DISPLAY MESSAGES -----------------------------------------------------------
 function displayMessages() {
-   // Check if level changing
-   if (levelChange) {
-    level++;
+  // Check if level changing
+  if (levelChange) {
     player.x = 400 - PLAYER_SIZE;
     player.y = 300 - PLAYER_SIZE;
     fill("blue");
@@ -189,6 +218,7 @@ function displayMessages() {
 // LEVEL 1
 let tumbleweedImage = document.createElement('img');
 tumbleweedImage.src = 'media/tumbleweed.gif';
+
 function tumbleweedDraw(tumbleweeds) {
   for (let i = 0; i < tumbleweeds.length; i++) {
     image(tumbleweedImage, tumbleweeds[i].x, tumbleweeds[i].y, tumbleweeds[i].size, tumbleweeds[i].size);
@@ -197,9 +227,8 @@ function tumbleweedDraw(tumbleweeds) {
 
 function tumbleweedMove(tumbleweeds) {
   for (let n = 0; n < tumbleweeds.length; n++) {
-      tumbleweeds[n].x += tumbleweeds[n].speed;
-    }
-
+    tumbleweeds[n].x += tumbleweeds[n].speed;
+  }
 }
 
 function populateTumbleweed(tumbleweedCount) {
@@ -207,13 +236,94 @@ function populateTumbleweed(tumbleweedCount) {
   for (let i = 1; i < tumbleweedCount; i++) {
     // if i  is odd
     if (i % 2 == 1) {
-      tempArray.push({ x: randomInt(-8000, -200), y: randomInt(100, 501), speed: randomInt(4, 7), size: TUMBLEWEED_SIZE})
+      tempArray.push({
+        x: randomInt(-8000, -200),
+        y: randomInt(100, 501),
+        speed: randomInt(4, 7),
+        size: TUMBLEWEED_SIZE
+      })
     }
     // if i  is even
     if (i % 2 == 0) {
-      tempArray.push({ x: randomInt(650, 8000), y: randomInt(100, 501), speed: randomInt(-6, -3), size: TUMBLEWEED_SIZE})
+      tempArray.push({
+        x: randomInt(650, 8000),
+        y: randomInt(100, 501),
+        speed: randomInt(-6, -3),
+        size: TUMBLEWEED_SIZE
+      })
     }
-    
+  }
+  return tempArray;
+}
+
+
+// LEVEL 2
+let beachballImage = document.createElement('img');
+beachballImage.src = 'media/beachball.png';
+
+function beachballDraw(beachballs) {
+  for (let i = 0; i < beachballs.length; i++) {
+    image(beachballImage, beachballs[i].x, beachballs[i].y, beachballs[i].size, beachballs[i].size);
+  }
+}
+
+function beachballMove(beachballs) {
+  for (let n = 0; n < beachballs.length; n++) {
+    beachballs[n].y += beachballs[n].speed;
+  }
+}
+
+function populateBeachballs(beachballCount) {
+  let tempArray = []
+  for (let i = 0; i < beachballCount; i++) {
+    tempArray.push({
+      x: randomInt(50, 550),
+      y: randomInt(2000, 10000),
+      speed: randomInt(-5, -2),
+      size: BEACH_BALL_SIZE
+    })
+  }
+  return tempArray;
+}
+
+// LEVEL 3
+let vodkaImage = document.createElement('img');
+vodkaImage.src = 'media/vodka.png';
+
+function vodkaDraw(vodkas) {
+  for (let i = 0; i < vodkas.length; i++) {
+    image(vodkaImage, vodkas[i].x, vodkas[i].y, vodkas[i].size, vodkas[i].size * 2);
+  }
+}
+
+function vodkaMove(vodkas) {
+  for (let n = 0; n < vodkas.length; n++) {
+    vodkas[n].y += vodkas[n].speed;
+    vodkas[n].x += vodkas[n].speed;
+  }
+}
+
+function populateVodkas(vodkaCount) {
+  let tempArray = []
+  for (let i = 0; i < vodkaCount; i++) {
+    // if i  is odd
+    if (i % 2 == 1) {
+      tempArray.push({
+        x: -1300,
+        y: -1500,
+        speed: randomInt(2, 8),
+        size: VODKA_SIZE
+      })
+    }
+    // if i  is even
+    if (i % 2 == 0) {
+      tempArray.push({
+        x: 1300,
+        y: 1500,
+        speed: randomInt(-2, -8),
+        size: VODKA_SIZE
+      })
+    }
   }
   return tempArray;
 }
