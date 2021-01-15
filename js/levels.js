@@ -121,9 +121,12 @@ function level3() {
 }
 
 //LEVEL 4 -------------------------------------------------------------------------------------- Space
+// background
+let spaceBg = document.createElement('img');
+spaceBg.src = 'media/space.png';
 function level4() {
     // Blank the canvas
-    background('black')
+    image(spaceBg, 0, 0, 800, 600)
 
     // Move player
     playerMovement();

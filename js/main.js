@@ -1,8 +1,5 @@
 // BULLET RAIN
 
-//TODO
-// ADD -> Final level bullets go rainbow and background goes black
-
 // Set Canvas Size
 canvasSize(800, 600);
 
@@ -17,6 +14,7 @@ let BULLETS_SPEED_MAX = 6;
 let level1ScoreToBeat = 100; // more than on old west
 let level2ScoreToBeat = 300; // more than on ocean
 let level3ScoreToBeat = 500; // more than in russia
+let level4ScoreToBeat = 1000; // more than in space
 
 let level2Setup = false;
 let level3Setup = false;
@@ -50,7 +48,7 @@ function draw() {
   if (level == 2) { // beach
     level2(); 
   }
-  if (level == 3) {
+  if (level == 3) { // russia
     level3();
   }
   if (level == 4) { // space

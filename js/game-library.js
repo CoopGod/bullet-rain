@@ -11,7 +11,8 @@ function bulletDraw(bullets) {
         x: randomInt(0, 801),
         y: -10,
         speed: randomInt(BULLETS_SPEED_MIN, BULLETS_SPEED_MAX),
-        size: BULLETS_SIZE
+        sizeW: BULLETS_SIZE,
+        sizeH: BULLETS_SIZE
       });
       // If game isn't over increase level
       if (!gameover) {
@@ -20,7 +21,7 @@ function bulletDraw(bullets) {
         updateLevels();
       }
     } else {
-      rect(bullets[i].x, bullets[i].y, bullets[i].size, bullets[i].size, 'fill');
+      rect(bullets[i].x, bullets[i].y, bullets[i].sizeW, bullets[i].sizeH, 'fill');
     }
   }
 }
@@ -59,7 +60,7 @@ function playerMovement() {
 // Check if player hit by object
 function playerHitCheck(player, objects) {
   for (let i = 0; i < objects.length; i++) {
-    if (squareCollide(player, objects[i], PLAYER_SIZE, objects[i].size)) {
+    if (squareCollide(player, objects[i], PLAYER_SIZE, PLAYER_SIZE, objects[i].sizeW, objects[i].sizeH)) {
       player.x = -100;
       player.y = -100;
       gameover = true;
@@ -68,7 +69,7 @@ function playerHitCheck(player, objects) {
 }
 
 // Test if two square objects intersect
-function squareCollide(rect1, rect2, rect1Size, rect2Size) {
+function squareCollide(rect1, rect2, rect1SizeW, rect1SizeH, rect2SizeW, rect2SizeH) {
   // Set bottom right corner to be compare with top left
   rect1Top = {
     x: rect1.x,
@@ -79,12 +80,12 @@ function squareCollide(rect1, rect2, rect1Size, rect2Size) {
     y: rect2.y
   }
   rect1Bottom = {
-    x: rect1.x + rect1Size,
-    y: rect1.y + rect1Size
+    x: rect1.x + rect1SizeW,
+    y: rect1.y + rect1SizeH
   }
   rect2Bottom = {
-    x: rect2.x + rect2Size,
-    y: rect2.y + rect2Size
+    x: rect2.x + rect2SizeW,
+    y: rect2.y + rect2SizeH
   }
   // If square to the left
   if (rect1Top.x > rect2Bottom.x || rect2Top.x > rect1Bottom.x) {
@@ -106,46 +107,56 @@ function populateBullets(bulletCount) {
       x: randomInt(0, 801),
       y: -10,
       speed: randomInt(BULLETS_SPEED_MIN, BULLETS_SPEED_MAX),
-      size: BULLETS_SIZE
+      sizeW: BULLETS_SIZE,
+      sizeH: BULLETS_SIZE
     });
   }
   return tempArray;
 }
 
 // LEVELING AND SETUP---------------------------------------------------------------------------------
-// Check to see if level needs to be updated
+// Check to see if level needs to be updated and apply top text
+let outputEl = document.getElementById('output');
 function updateLevels() {
   if (bulletsDodged == level1ScoreToBeat) {
     console.log('check 2')
     level = 2;
     levelSetup();
+    outputEl.innerHTML = "Aloha Beaches! Don't get hit by the beach balls!"
   }
   if (bulletsDodged == level2ScoreToBeat) {
     level = 3;
     console.log('check 3')
     levelSetup();
+    outputEl.innerHTML = "VODKA!"
   }
   if (bulletsDodged == level3ScoreToBeat) {
     level = 4;
     console.log('check 4')
     levelSetup();
+    outputEl.innerHTML = "this level is out of this world!"
+  }
+  if (bulletsDodged == level4ScoreToBeat) {
+    bullets = [] // clear bullets
+    gameBeaten = true;
+    outputEl.innerHTML = "You're unkillable!"
   }
 }
 
 // Update levels if they haven't been already
 function levelSetup() {
-  if (level == 2 && level2Setup == false && levelChange == false) {
+  if (level == 2 && level2Setup == false) {
     console.log('check 2') // Beach
     levelup(25)
     level2Setup = true;
   }
-  if (level == 3 && level3Setup == false && levelChange == false) {
+  if (level == 3 && level3Setup == false) {
     console.log('check 3') // Russia
     levelup(35)
     level3Setup == true;
 
   }
-  if (level == 4 && level4Setup == false && levelChange == false) { // Space
+  if (level == 4 && level4Setup == false) { // Space
     console.log('check 4')
     levelup(45);
     level4Setup == true;
@@ -224,7 +235,7 @@ tumbleweedImage.src = 'media/tumbleweed.gif';
 
 function tumbleweedDraw(tumbleweeds) {
   for (let i = 0; i < tumbleweeds.length; i++) {
-    image(tumbleweedImage, tumbleweeds[i].x, tumbleweeds[i].y, tumbleweeds[i].size, tumbleweeds[i].size);
+    image(tumbleweedImage, tumbleweeds[i].x, tumbleweeds[i].y, tumbleweeds[i].sizeW, tumbleweeds[i].sizeH);
   }
 }
 
@@ -243,7 +254,8 @@ function populateTumbleweed(tumbleweedCount) {
         x: randomInt(-8000, -200),
         y: randomInt(100, 501),
         speed: randomInt(4, 7),
-        size: TUMBLEWEED_SIZE
+        sizeW: TUMBLEWEED_SIZE,
+        sizeH: TUMBLEWEED_SIZE
       })
     }
     // if i  is even
@@ -252,7 +264,8 @@ function populateTumbleweed(tumbleweedCount) {
         x: randomInt(650, 8000),
         y: randomInt(100, 501),
         speed: randomInt(-6, -3),
-        size: TUMBLEWEED_SIZE
+        sizeW: TUMBLEWEED_SIZE,
+        sizeH: TUMBLEWEED_SIZE
       })
     }
   }
@@ -266,7 +279,7 @@ beachballImage.src = 'media/beachball.png';
 
 function beachballDraw(beachballs) {
   for (let i = 0; i < beachballs.length; i++) {
-    image(beachballImage, beachballs[i].x, beachballs[i].y, beachballs[i].size, beachballs[i].size);
+    image(beachballImage, beachballs[i].x, beachballs[i].y, beachballs[i].sizeW, beachballs[i].sizeH);
   }
 }
 
@@ -283,7 +296,8 @@ function populateBeachballs(beachballCount) {
       x: randomInt(50, 550),
       y: randomInt(2000, 10000),
       speed: randomInt(-5, -2),
-      size: BEACH_BALL_SIZE
+      sizeW: BEACH_BALL_SIZE,
+      sizeH: BEACH_BALL_SIZE
     })
   }
   return tempArray;
@@ -295,7 +309,7 @@ vodkaImage.src = 'media/vodka.png';
 
 function vodkaDraw(vodkas) {
   for (let i = 0; i < vodkas.length; i++) {
-    image(vodkaImage, vodkas[i].x, vodkas[i].y, vodkas[i].size, vodkas[i].size * 2);
+    image(vodkaImage, vodkas[i].x, vodkas[i].y, vodkas[i].sizeW, vodkas[i].sizeH);
   }
 }
 
@@ -315,7 +329,8 @@ function populateVodkas(vodkaCount) {
         x: -1300,
         y: -1500,
         speed: randomInt(2, 8),
-        size: VODKA_SIZE
+        sizeW: VODKA_SIZE,
+        sizeH: VODKA_SIZE * 2
       })
     }
     // if i  is even
@@ -324,7 +339,8 @@ function populateVodkas(vodkaCount) {
         x: 1300,
         y: 1500,
         speed: randomInt(-2, -8),
-        size: VODKA_SIZE
+        sizeW: VODKA_SIZE,
+        sizeH: VODKA_SIZE * 2
       })
     }
   }
