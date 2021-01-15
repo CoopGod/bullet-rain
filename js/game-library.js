@@ -8,7 +8,7 @@ function bulletDraw(bullets) {
       bullets.splice(i, 1);
       i--;
       bullets.push({
-        x: randomInt(0, cnv.height + 1),
+        x: randomInt(0, cnv.width + 1),
         y: -10,
         speed: randomInt(BULLETS_SPEED_MIN, BULLETS_SPEED_MAX),
         sizeW: BULLETS_SIZE,
@@ -105,7 +105,7 @@ function populateBullets(bulletCount) {
   let tempArray = []
   for (let i = 0; i < bulletCount; i++) {
     tempArray.push({
-      x: randomInt(0, cnv.height + 1),
+      x: randomInt(0, cnv.width + 1),
       y: -10,
       speed: randomInt(BULLETS_SPEED_MIN, BULLETS_SPEED_MAX),
       sizeW: BULLETS_SIZE,
