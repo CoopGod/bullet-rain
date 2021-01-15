@@ -122,19 +122,19 @@ function updateLevels() {
     console.log('check 2')
     level = 2;
     levelSetup();
-    outputEl.innerHTML = "Aloha Beaches! Don't get hit by the beach balls!"
+    outputEl.innerHTML = "Aloha Beaches: Don't get hit by the beach balls!"
   }
   if (bulletsDodged == level2ScoreToBeat) {
     level = 3;
     console.log('check 3')
     levelSetup();
-    outputEl.innerHTML = "VODKA!"
+    outputEl.innerHTML = "Russia: VODKA!"
   }
   if (bulletsDodged == level3ScoreToBeat) {
     level = 4;
     console.log('check 4')
     levelSetup();
-    outputEl.innerHTML = "this level is out of this world!"
+    outputEl.innerHTML = "Outer Space: don't get a seizure"
   }
   if (bulletsDodged == level4ScoreToBeat) {
     bullets = [] // clear bullets
