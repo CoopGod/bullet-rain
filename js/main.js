@@ -14,9 +14,9 @@ let BULLETS_SPEED_MIN = 2;
 let BULLETS_SPEED_MAX = 6;
 
 // GLOBAL LEVEL VARIABLES
-let level1ScoreToBeat = 10; // more than on old west
-let level2ScoreToBeat = 20; // more than on ocean
-let level3ScoreToBeat = 30; // more than in russia
+let level1ScoreToBeat = 100; // more than on old west
+let level2ScoreToBeat = 300; // more than on ocean
+let level3ScoreToBeat = 500; // more than in russia
 
 let level2Setup = false;
 let level3Setup = false;

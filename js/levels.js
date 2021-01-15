@@ -1,6 +1,6 @@
 // LEVELS
 
-//LEVEL 1 --------------------- OLD WEST
+//LEVEL 1 ----------------------------------------------------------------------------------- OLD WEST
 //background
 let oldWestBg = document.createElement('img')
 oldWestBg.src = "media/old-west.png"
@@ -8,6 +8,7 @@ oldWestBg.src = "media/old-west.png"
 // set  extra obstacle
 let TUMBLEWEED_SIZE = 50;
 let tumbleweeds = populateTumbleweed(12);
+
 function level1() {
     // Blank the canvas
     background("rgb(241, 205, 138)");
@@ -40,7 +41,8 @@ function level1() {
     playerHitCheck(player, tumbleweeds);
 }
 
-//LEVEL 2 --------------------- BEACH
+
+//LEVEL 2 -------------------------------------------------------------------------------------- BEACH
 //background
 let oceanBg = document.createElement('img')
 oceanBg.src = "media/ocean.png"
@@ -48,6 +50,7 @@ oceanBg.src = "media/ocean.png"
 // set  extra obstacle
 let BEACH_BALL_SIZE = 50;
 let beachballs = populateBeachballs(10);
+
 function level2() {
     // Blank the canvas
     image(oceanBg, 0, 0, 800, 600)
@@ -78,8 +81,7 @@ function level2() {
 }
 
 
-
-//LEVEL 3 --------------------- RUSSIA
+//LEVEL 3 ------------------------------------------------------------------------------------- RUSSIA
 // background
 let russiaBg = document.createElement('img');
 russiaBg.src = 'media/russia.png';
@@ -88,6 +90,7 @@ russiaBg.src = 'media/russia.png';
 let VODKA_SIZE = 50;
 let vodkas = populateVodkas(10);
 console.log(vodkas)
+
 function level3() {
     // Blank the canvas
     image(russiaBg, 0, 0, 800, 600)
@@ -117,7 +120,7 @@ function level3() {
     playerHitCheck(player, vodkas);
 }
 
-//LEVEL 4 ---------------------
+//LEVEL 4 -------------------------------------------------------------------------------------- Space
 function level4() {
     // Blank the canvas
     background('black')

@@ -32,20 +32,6 @@ function bulletMove(bullets) {
   }
 }
 
-// Populate bullets array
-function populateBullets(bulletCount) {
-  let tempArray = []
-  for (let i = 0; i < bulletCount; i++) {
-    tempArray.push({
-      x: randomInt(0, 801),
-      y: -10,
-      speed: randomInt(BULLETS_SPEED_MIN, BULLETS_SPEED_MAX),
-      size: BULLETS_SIZE
-    });
-  }
-  return tempArray;
-}
-
 function playerMovement() {
   if (keyIsDown[37]) {
     if (player.x >= 0) {
@@ -69,7 +55,7 @@ function playerMovement() {
   }
 }
 
-// GAME LOGIC FUNCTIONS ---------------------------------------------------------
+// GAME LOGIC FUNCTIONS ------------------------------------------------------------------------------
 // Check if player hit by object
 function playerHitCheck(player, objects) {
   for (let i = 0; i < objects.length; i++) {
@@ -79,74 +65,6 @@ function playerHitCheck(player, objects) {
       gameover = true;
     }
   }
-}
-
-// bullet count updates
-let bulletsDodgedOutput = document.getElementById('bulletsDodgedOutput'); // HTML El to update dodged
-function outputMessageHandler() {
-  bulletsDodgedOutput.innerHTML = bulletsDodged;
-}
-
-// LEVEL SETUP -----------------------------------------------------------------
-// Check to see if level needs to be updated
-function updateLevels() {
-  if (bulletsDodged >= level1ScoreToBeat) {
-    level = 2;
-    levelSetup();
-  }
-  if (bulletsDodged >= level2ScoreToBeat && bulletsDodged <= level3ScoreToBeat) {
-    level = 3;
-    levelSetup();
-  }
-  if (bulletsDodged >= level3ScoreToBeat) {
-    level = 4;
-    levelSetup();
-  }
-}
-
-function levelSetup() { // LEVELING FROM RUSSIA TO SPACE IS BROKEN (calls if level == 3 more than it should)
-  if (level == 2 && level2Setup == false) {
-    console.log('check') // Beach
-    levelup(25)
-    level2Setup = true;
-  }
-  if (level == 3 && level3Setup == false) {
-    console.log('check') // Russia
-    level3Setup == true;
-    levelup(35)
-    
-  }
-  if (level == 4 && level4Setup == false) { // Space
-    console.log('check')
-     levelup(45);
-     level4Setup == true;
-  }
-}
-
-// Display screen for leveling up
-async function levelup(restockAmmout) {
-  clearArray = [];
-  // Level specifics (subtract one for actual level)
-  if (level == 2) {
-    tumbleweeds = clearArray;
-  }
-  if (level == 3) {
-    beachballs = clearArray;
-  }
-  if (level == 4) {
-    vodkas = clearArray;
-  }
-  bullets = clearArray; // Clear all bullets
-  levelChange = true; // Update to draw front page
-  await sleep(5000); // Leave time for break
-  tempArray = populateBullets(restockAmmout);
-  bullets = tempArray; // Restock bullets
-  levelChange = false;
-}
-
-// Sleep for ms (milliseconds)
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // Test if two square objects intersect
@@ -180,7 +98,87 @@ function squareCollide(rect1, rect2, rect1Size, rect2Size) {
   return true;
 }
 
-// DISPLAY MESSAGES -----------------------------------------------------------
+// Populate bullets array
+function populateBullets(bulletCount) {
+  let tempArray = []
+  for (let i = 0; i < bulletCount; i++) {
+    tempArray.push({
+      x: randomInt(0, 801),
+      y: -10,
+      speed: randomInt(BULLETS_SPEED_MIN, BULLETS_SPEED_MAX),
+      size: BULLETS_SIZE
+    });
+  }
+  return tempArray;
+}
+
+// LEVELING AND SETUP---------------------------------------------------------------------------------
+// Check to see if level needs to be updated
+function updateLevels() {
+  if (bulletsDodged == level1ScoreToBeat) {
+    console.log('check 2')
+    level = 2;
+    levelSetup();
+  }
+  if (bulletsDodged == level2ScoreToBeat) {
+    level = 3;
+    console.log('check 3')
+    levelSetup();
+  }
+  if (bulletsDodged == level3ScoreToBeat) {
+    level = 4;
+    console.log('check 4')
+    levelSetup();
+  }
+}
+
+// Update levels if they haven't been already
+function levelSetup() {
+  if (level == 2 && level2Setup == false && levelChange == false) {
+    console.log('check 2') // Beach
+    levelup(25)
+    level2Setup = true;
+  }
+  if (level == 3 && level3Setup == false && levelChange == false) {
+    console.log('check 3') // Russia
+    levelup(35)
+    level3Setup == true;
+
+  }
+  if (level == 4 && level4Setup == false && levelChange == false) { // Space
+    console.log('check 4')
+    levelup(45);
+    level4Setup == true;
+  }
+}
+
+// Display screen for leveling up and clear up remaining obstacles
+async function levelup(restockAmmout) {
+  clearArray = [];
+  // Level specifics (subtract one for actual level)
+  if (level == 2) {
+    tumbleweeds = clearArray;
+  }
+  if (level == 3) {
+    beachballs = clearArray;
+  }
+  if (level == 4) {
+    vodkas = clearArray;
+  }
+  bullets = clearArray; // Clear all bullets
+  levelChange = true; // Update to draw front page
+  await sleep(5000); // Leave time for break
+  tempArray = populateBullets(restockAmmout);
+  bullets = tempArray; // Restock bullets
+  levelChange = false;
+}
+
+// Sleep for ms (milliseconds)
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// DISPLAY MESSAGES ----------------------------------------------------------------------------------
 function displayMessages() {
   // Check if level changing
   if (levelChange) {
@@ -212,8 +210,13 @@ function displayMessages() {
   }
 }
 
+// bullet count updates
+let bulletsDodgedOutput = document.getElementById('bulletsDodgedOutput'); // HTML El to update dodged
+function outputMessageHandler() {
+  bulletsDodgedOutput.innerHTML = bulletsDodged;
+}
 
-// LEVEL SPECIFIC FUNCTIONS --------------------------------------------------
+// LEVEL SPECIFIC FUNCTIONS --------------------------------------------------------------------------
 
 // LEVEL 1
 let tumbleweedImage = document.createElement('img');
