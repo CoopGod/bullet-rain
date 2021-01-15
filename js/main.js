@@ -46,7 +46,7 @@ function draw() {
     level1();
   }
   if (level == 2) { // beach
-    level2(); 
+    level2();
   }
   if (level == 3) { // russia
     level3();
@@ -56,7 +56,7 @@ function draw() {
   }
 
   // CHECK TO DISPLAY MESSAGES
- displayMessages();
+  displayMessages();
 
   requestAnimationFrame(draw);
 }
